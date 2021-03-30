@@ -1,0 +1,14 @@
+com\covid\common\Helper.class
+com\covid\service\CovidService.class
+com\covid\model\Covid19ApiTotal.class
+com\covid\common\Constants.class
+com\covid\model\CovidCountry.class
+com\covid\service\CovidRestApiImpl.class
+com\covid\model\Covid19ApiCountry.class
+com\covid\ServletInitializer.class
+com\covid\service\Covid19ApiServiceImpl.class
+com\covid\controller\CovidConfiguration.class
+com\covid\controller\AppRouting.class
+com\covid\controller\AppController.class
+com\covid\CovidApplication.class
+com\covid\model\CovidTotal.class
