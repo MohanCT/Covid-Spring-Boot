@@ -12,11 +12,11 @@
 	<groupId>com.covid</groupId>
 	<artifactId>Covid-App</artifactId>
 	<version>1.0</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>Covid</name>
 	<description>Covid project for Spring Boot</description>
 	<properties>
-		<java.version>8</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -56,15 +56,15 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>com.google.cloud.tools</groupId>
-				<artifactId>appengine-maven-plugin</artifactId>
-				<version>2.2.0</version>
-				<configuration>
-					<version>1</version>
-					<projectId>GCLOUD_CONFIG</projectId>
-				</configuration>
-			</plugin>
+             <plugin>
+        <groupId>com.google.cloud.tools</groupId>
+        <artifactId>appengine-maven-plugin</artifactId>
+        <version>2.1.0</version>
+        <configuration>
+          <version>1</version>
+          <projectId>GCLOUD_CONFIG</projectId>
+        </configuration>
+      </plugin>
 		</plugins>
 	</build>
 

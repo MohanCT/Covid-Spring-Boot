@@ -30,6 +30,7 @@ import com.covid.common.Helper;
 import com.covid.model.CovidCountry;
 import com.covid.model.CovidTotal;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.covid.model.CovidData;
 
 @Service
 public class CovidRestApiImpl {
@@ -44,7 +45,10 @@ public class CovidRestApiImpl {
 	ObjectMapper objectMapper;
 	
 	@Autowired
-	ResourceLoader resourceLoader;
+    ResourceLoader resourceLoader;
+    
+    @Autowired
+	CovidData covidData;
 
 	public void saveCovidApiSummary() {
 		try {
@@ -82,8 +86,9 @@ public class CovidRestApiImpl {
 				covidTotal.setTotalNewCases(jsonObject.optInt("totalNewCases"));
 				covidTotal.setTotalNewDeaths(jsonObject.optInt("totalNewDeaths"));
 				covidTotal.setCreated(jsonObject.optString("created"));
-				
-				Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL, covidTotal);
+				System.out.println("covid total save file");
+                Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL, covidTotal);
+                System.out.println("covid total save file end");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -121,8 +126,9 @@ public class CovidRestApiImpl {
 						covidCouList.add(covidCountry);
 					}
 				}
-				
-				Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY, covidCouList);
+				System.out.println("covid country save file");
+                Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY, covidCouList);
+                System.out.println("covid country save file end");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,9 +153,12 @@ public class CovidRestApiImpl {
 				covidTotal.setTotalRecovered(jsonObject.optInt("recovered"));
 				covidTotal.setTotalNewCases(jsonObject.optInt("todayCases"));
 				covidTotal.setTotalNewDeaths(jsonObject.optInt("todayDeaths"));
-				covidTotal.setCreated(jsonObject.optString("updated"));
-//				Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL, covidTotal);
-				Helper.saveJsonFile("covidTotal.json", covidTotal);
+                covidTotal.setCreated(jsonObject.optString("updated"));
+                // System.out.println("covid total save file");
+                // Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL, covidTotal);
+                // System.out.println("covid total save file end");
+                // Helper.saveJsonFile("covidTotal.json", covidTotal);
+                covidData.setCovidTotal(covidTotal);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -192,9 +201,12 @@ public class CovidRestApiImpl {
 				covidCouList = covidCouList.stream()
 				        .sorted(Comparator.comparingInt(CovidCountry::getTotalCases)
 				        .reversed())
-				        .collect(Collectors.toList());
-//				Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY, covidCouList);
-				Helper.saveJsonFile("covidCountry.json", covidCouList);
+                        .collect(Collectors.toList());
+                //         System.out.println("covid country save file");
+				// Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY, covidCouList);
+                // // Helper.saveJsonFile("covidCountry.json", covidCouList);
+                // System.out.println("covid country save file end");
+                covidData.setCovidCouList(covidCouList);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
