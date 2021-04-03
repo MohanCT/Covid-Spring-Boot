@@ -28,6 +28,7 @@ import org.springframework.web.client.RestTemplate;
 import com.covid.common.Constants;
 import com.covid.common.Helper;
 import com.covid.model.CovidCountry;
+import com.covid.model.CovidData;
 import com.covid.model.CovidTotal;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -45,6 +46,9 @@ public class CovidRestApiImpl {
 	
 	@Autowired
 	ResourceLoader resourceLoader;
+	
+	@Autowired
+	CovidData covidData;
 
 	public void saveCovidApiSummary() {
 		try {
@@ -149,7 +153,8 @@ public class CovidRestApiImpl {
 				covidTotal.setTotalNewDeaths(jsonObject.optInt("todayDeaths"));
 				covidTotal.setCreated(jsonObject.optString("updated"));
 //				Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL, covidTotal);
-				Helper.saveJsonFile("covidTotal.json", covidTotal);
+//				Helper.saveJsonFile("covidTotal.json", covidTotal);
+				covidData.setCovidTotal(covidTotal);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -194,7 +199,9 @@ public class CovidRestApiImpl {
 				        .reversed())
 				        .collect(Collectors.toList());
 //				Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY, covidCouList);
-				Helper.saveJsonFile("covidCountry.json", covidCouList);
+//				Helper.saveJsonFile("covidCountry.json", covidCouList);
+				covidData.setCovidCouList(covidCouList);
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

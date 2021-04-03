@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import com.covid.common.Constants;
 import com.covid.common.Helper;
 import com.covid.model.CovidCountry;
+import com.covid.model.CovidData;
 import com.covid.model.CovidTotal;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -38,6 +39,9 @@ public class Covid19ApiServiceImpl implements CovidService {
 	@Autowired
 	List<CovidCountry> covidCountry;
 	
+	@Autowired
+	CovidData covidData;
+	
 	Date apiTotalDate;
 
 	Date apiCountryDate;
@@ -56,9 +60,10 @@ public class Covid19ApiServiceImpl implements CovidService {
 			}
 
 			if (chkApi || Objects.isNull(covidTotal)) {
-				covidTotal = (CovidTotal) Helper.readJsonFile("covidTotal.json");
+//				covidTotal = (CovidTotal) Helper.readJsonFile("covidTotal.json");
 //				covidTotal = (CovidTotal) Helper
 //						.readJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL);
+				covidTotal = covidData.getCovidTotal();
 			}
 
 			responseMap.put("covidTotal", covidTotal);
@@ -85,9 +90,10 @@ public class Covid19ApiServiceImpl implements CovidService {
 			}
 
 			if (chkApi || Objects.isNull(covidCountry)) {
-				covidCountry = (List<CovidCountry>) Helper.readJsonFile("covidCountry.json");
+//				covidCountry = (List<CovidCountry>) Helper.readJsonFile("covidCountry.json");
 //				covidCountry = (List<CovidCountry>) Helper.readJsonFile(
 //						environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY);
+				covidCountry = covidData.getCovidCouList();
 			}
 
 			responseMap.put("covidCountry", covidCountry);
