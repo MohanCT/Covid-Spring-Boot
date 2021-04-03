@@ -17,6 +17,7 @@ import com.covid.model.CovidCountry;
 import com.covid.model.CovidData;
 import com.covid.model.CovidTotal;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.covid.model.CovidData;
 
 @Service
 public class Covid19ApiServiceImpl implements CovidService {
@@ -37,7 +38,10 @@ public class Covid19ApiServiceImpl implements CovidService {
 	CovidTotal covidTotal;
 
 	@Autowired
-	List<CovidCountry> covidCountry;
+    List<CovidCountry> covidCountry;
+    
+    @Autowired
+	CovidData covidData;
 	
 	@Autowired
 	CovidData covidData;
@@ -60,10 +64,19 @@ public class Covid19ApiServiceImpl implements CovidService {
 			}
 
 			if (chkApi || Objects.isNull(covidTotal)) {
+<<<<<<< HEAD
 //				covidTotal = (CovidTotal) Helper.readJsonFile("covidTotal.json");
 //				covidTotal = (CovidTotal) Helper
 //						.readJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL);
 				covidTotal = covidData.getCovidTotal();
+=======
+                // covidTotal = (CovidTotal) Helper.readJsonFile("covidTotal.json");
+                // System.out.println("covid total read file");
+				// covidTotal = (CovidTotal) Helper
+                //         .readJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL);
+                //         System.out.println("covid total read file end");
+                        covidTotal = covidData.getCovidTotal();
+>>>>>>> 1be883a68484e674c7f40c79c4a9ba5e7bec012f
 			}
 
 			responseMap.put("covidTotal", covidTotal);
@@ -90,10 +103,19 @@ public class Covid19ApiServiceImpl implements CovidService {
 			}
 
 			if (chkApi || Objects.isNull(covidCountry)) {
+<<<<<<< HEAD
 //				covidCountry = (List<CovidCountry>) Helper.readJsonFile("covidCountry.json");
 //				covidCountry = (List<CovidCountry>) Helper.readJsonFile(
 //						environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY);
 				covidCountry = covidData.getCovidCouList();
+=======
+                // covidCountry = (List<CovidCountry>) Helper.readJsonFile("covidCountry.json");
+                // System.out.println("covid country read file");
+				// covidCountry = (List<CovidCountry>) Helper.readJsonFile(
+                //         environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY);
+                //         System.out.println("covid country read file end");
+                covidCountry = covidData.getCovidCouList();
+>>>>>>> 1be883a68484e674c7f40c79c4a9ba5e7bec012f
 			}
 
 			responseMap.put("covidCountry", covidCountry);

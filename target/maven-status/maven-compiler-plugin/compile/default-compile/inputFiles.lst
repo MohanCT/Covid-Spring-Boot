@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 D:\Project\Live Projects\Covid Scratch\GitHub\CovidGCP\src\main\java\com\covid\controller\AppController.java
 D:\Project\Live Projects\Covid Scratch\GitHub\CovidGCP\src\main\java\com\covid\controller\CovidConfiguration.java
 D:\Project\Live Projects\Covid Scratch\GitHub\CovidGCP\src\main\java\com\covid\model\Covid19ApiCountry.java
@@ -12,3 +13,20 @@ D:\Project\Live Projects\Covid Scratch\GitHub\CovidGCP\src\main\java\com\covid\c
 D:\Project\Live Projects\Covid Scratch\GitHub\CovidGCP\src\main\java\com\covid\model\CovidCountry.java
 D:\Project\Live Projects\Covid Scratch\GitHub\CovidGCP\src\main\java\com\covid\controller\AppRouting.java
 D:\Project\Live Projects\Covid Scratch\GitHub\CovidGCP\src\main\java\com\covid\model\CovidTotal.java
+=======
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/CovidApplication.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/common/Constants.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/common/Helper.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/model/Covid19ApiTotal.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/ServletInitializer.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/controller/CovidConfiguration.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/service/CovidService.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/service/Covid19ApiServiceImpl.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/model/CovidTotal.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/service/CovidRestApiImpl.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/model/Covid19ApiCountry.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/controller/AppController.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/controller/AppRouting.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/model/CovidCountry.java
+/home/mohan_ct95/CovidGCP/src/main/java/com/covid/model/CovidData.java
+>>>>>>> 1be883a68484e674c7f40c79c4a9ba5e7bec012f
