@@ -7,4 +7,8 @@ public interface CovidService {
 	public Map<String,Object> getTotalCovidCases();
 	
 	public Map<String,Object> getTotalCountryCovidCases();
+	
+	public Map<String,Object> getContinents();
+	
+	public Map<String,Object> getCountryList(Map<String,Object> requestData); 
 }

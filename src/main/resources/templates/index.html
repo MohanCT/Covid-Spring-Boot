@@ -2,21 +2,11 @@
 <html lang="en">
 
 <head>
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-NF359JFENQ"></script>
-        <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-NF359JFENQ');
-        </script>
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <base href="./">
+    <!-- <base href="./"> -->
+    <base href="/">
     <meta name="title" content="Covid dashboard">
     <meta name="description" content="Covid live updates from around the world. Know the number of deaths, active cases,recovered cases and total cases around the world and your country.">
     <meta name="keywords" content="covid dashboard,corona status,corona virus data">
@@ -25,48 +15,105 @@
 
     <!-- Required meta tags -->
 
-    <title>Coronavirus Tracker</title>
+    <title>Coronavirus Data Traker</title>
 
     <!-- Favicon -->
     <link rel="icon" href="./assets/covid/img/core-img/favicon.png">
 
     <!-- Plugins css -->
-    <link href="./assets/covid/assets/css/jqvmap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="./assets/covid/css/default-assets/jquery.jConveyorTicker.min.css">
-    <link href="./assets/covid/assets/css/datatables.min.css" rel="stylesheet"/>
-    <link href="./assets/covid/assets/css/select2.min.css" rel="stylesheet"/>
+    <link href="assets/covid/assets/css/jqvmap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/covid/css/default-assets/jquery.jConveyorTicker.min.css">
+    <link href="assets/covid/assets/css/datatables.min.css" rel="stylesheet"/>
+    <link href="assets/covid/assets/css/select2.min.css" rel="stylesheet"/>
 
     <!-- Master Stylesheet CSS -->
-    <link rel="stylesheet" href="./assets/covid/style.css">
-    
-    <script src="./assets/covid/js/jquery.min.js"></script>
-    <script src="./assets/covid/js/bootstrap.min.js"></script>
-    <script src="./assets/covid/js/bundle.js"></script>
-    <script src="./assets/covid/js/default-assets/setting.js"></script>
-    
-    <script src="./assets/covid/js/default-assets/jquery.jConveyorTicker.min.js"></script>
-    <script src="./assets/covid/assets/js/select2.full.min.js"></script>
-    <script src="./assets/covid/assets/js/datatables.min.js"></script>
-    <script src="./assets/covid/assets/js/jquery.vmap.min.js"></script>
-    <script src="./assets/covid/assets/js/jquery.vmap.world.js"></script>
+    <!-- <link rel="stylesheet" href="./assets/covid/css/style.css"> -->
+    <link rel="stylesheet" href="assets/covid/style.css">
 
-    <script src="./assets/covid/assets/js/active.js"></script>
+    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/rowreorder/1.2.7/css/rowReorder.dataTables.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.min.css" rel="stylesheet"/>
+    
+    <script src="assets/covid/js/jquery.min.js"></script>
+    <!-- <script src="./assets/covid/js/popper.min.html"></script> -->
+    <script src="assets/covid/js/bootstrap.min.js"></script>
+    <script src="assets/covid/js/bundle.js"></script>
+    <script src="assets/covid/js/default-assets/setting.js"></script>
+    <!-- <script src="./assets/covid/js/default-assets/date-time.js"></script> -->
+
+    <!-- Active JS -->
+    <!-- <script src="./assets/covid/js/default-assets/active.js"></script> -->
+
+    <!-- Inject JS -->
+    <!-- <script src="./assets/covid/js/default-assets/apexchart.min.js"></script> -->
+    <!-- <script src="./assets/covid/js/default-assets/dashboard-active.js"></script> -->
+    <!-- <script src="./assets/covid/js/script.js"></script> -->
+    <script src="assets/covid/js/default-assets/jquery.jConveyorTicker.min.js"></script>
+    <script src="assets/covid/assets/js/select2.full.min.js"></script>
+    <script src="assets/covid/assets/js/datatables.min.js"></script>
+    <script src="assets/covid/assets/js/jquery.vmap.min.js"></script>
+    <script src="assets/covid/assets/js/jquery.vmap.world.js"></script>
+
+    <!--=== APP Js ===-->
+    <!-- <script src="./assets/covid/assets/js/app.js"></script> -->
+    <!--=== Active Js ===-->
+    <script src="assets/covid/assets/js/active.js"></script>
 
 
 
     <!-- Angular -->
-    <link rel="stylesheet" type="text/css" href="./assets/css/jquery-jvectormap-2.0.5.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery-jvectormap-2.0.5.css">
     <!-- <script type="text/javascript" src="./assets/js/jquery-3.5.1.js"></script> -->
-    <script type="text/javascript" src="./assets/js/jquery-jvectormap-2.0.5.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery-jvectormap-2.0.5.min.js"></script>
 
-    <script type="text/javascript" src="./assets/js/jquery-jvectormap-world-mill.js"></script>
+    <script type="text/javascript" src="assets/js/jquery-jvectormap-world-mill.js"></script>
+
+    <script type="text/javascript" src="https://cdn.datatables.net/rowreorder/1.2.7/js/dataTables.rowReorder.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
 
 <link rel="stylesheet" href="styles.3ff695c00d717f2d2a11.css"></head>
 
 <body>
 
   <app-root></app-root>
+  <!-- <script>
+    $(function() {
+        $('.js-conveyor-1').jConveyorTicker();
+    });
+</script> -->
 
-<script src="runtime.7b63b9fd40098a2e8207.js" defer></script><script src="polyfills.94daefd414b8355106ab.js" defer></script><script src="main.be304d9457f543f929a2.js" defer></script></body>
+<script src="runtime.7b63b9fd40098a2e8207.js" defer></script><script src="polyfills.94daefd414b8355106ab.js" defer></script><script src="main.b9a85b822fd9f1654779.js" defer></script></body>
 
 </html>
+
+
+
+
+
+
+
+
+
+<!-- <!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Angular</title>
+  <base href="./">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" type="text/css" href="./assets/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+
+  <script type="text/javascript" src="./assets/js/jquery-3.5.1.js"></script>
+  <script type="text/javascript" charset="utf8"
+    src="./assets/js/jquery.dataTables.js"></script>
+
+</head>
+
+<body>
+  <app-root></app-root>
+</body>
+
+</html> -->

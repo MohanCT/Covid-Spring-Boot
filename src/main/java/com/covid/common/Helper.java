@@ -9,8 +9,11 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -69,5 +72,18 @@ public class Helper {
 	 private Helper() {
 		    throw new IllegalStateException("Utility class");
      }
+	 
+	 public static String chkString(Object obj) {
+		 String str = "";
+		 if(Objects.nonNull(obj)) {
+			 str = obj.toString();
+		 }
+		 return str;
+	 }
+	 
+	 public static String getCurrentDate() {
+		 Date date = new Date();
+		 return new SimpleDateFormat("yyyy-MM-dd").format(date);
+	 }
 
 }

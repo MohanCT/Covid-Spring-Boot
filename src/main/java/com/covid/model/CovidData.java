@@ -10,6 +10,8 @@ public class CovidData {
 	private CovidTotal covidTotal;
 	
 	List<CovidCountry> covidCouList;
+	
+	List<CovidContinents> covidContinents;
 
 	public CovidTotal getCovidTotal() {
 		return covidTotal;
@@ -25,6 +27,14 @@ public class CovidData {
 
 	public void setCovidCouList(List<CovidCountry> covidCouList) {
 		this.covidCouList = covidCouList;
+	}
+
+	public List<CovidContinents> getCovidContinents() {
+		return covidContinents;
+	}
+
+	public void setCovidContinents(List<CovidContinents> covidContinents) {
+		this.covidContinents = covidContinents;
 	}
 	
 

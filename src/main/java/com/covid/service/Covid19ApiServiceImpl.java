@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.covid.common.Constants;
 import com.covid.common.Helper;
+import com.covid.model.CovidContinents;
 import com.covid.model.CovidCountry;
+import com.covid.model.CovidCountryListData;
+import com.covid.model.CovidCountryMap;
 import com.covid.model.CovidData;
 import com.covid.model.CovidTotal;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,13 +45,18 @@ public class Covid19ApiServiceImpl implements CovidService {
     
     @Autowired
 	CovidData covidData;
-	
-	@Autowired
-	CovidData covidData;
+    
+    @Autowired
+    CovidCountryMap covidCountryMap;
+    
+    @Autowired
+    List<CovidContinents> covidContinents; 
 	
 	Date apiTotalDate;
 
 	Date apiCountryDate;
+	
+	Date continentDate;
 
 	@Override
 	public Map<String, Object> getTotalCovidCases() {
@@ -64,19 +72,9 @@ public class Covid19ApiServiceImpl implements CovidService {
 			}
 
 			if (chkApi || Objects.isNull(covidTotal)) {
-<<<<<<< HEAD
-//				covidTotal = (CovidTotal) Helper.readJsonFile("covidTotal.json");
 //				covidTotal = (CovidTotal) Helper
 //						.readJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL);
 				covidTotal = covidData.getCovidTotal();
-=======
-                // covidTotal = (CovidTotal) Helper.readJsonFile("covidTotal.json");
-                // System.out.println("covid total read file");
-				// covidTotal = (CovidTotal) Helper
-                //         .readJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL);
-                //         System.out.println("covid total read file end");
-                        covidTotal = covidData.getCovidTotal();
->>>>>>> 1be883a68484e674c7f40c79c4a9ba5e7bec012f
 			}
 
 			responseMap.put("covidTotal", covidTotal);
@@ -103,22 +101,67 @@ public class Covid19ApiServiceImpl implements CovidService {
 			}
 
 			if (chkApi || Objects.isNull(covidCountry)) {
-<<<<<<< HEAD
-//				covidCountry = (List<CovidCountry>) Helper.readJsonFile("covidCountry.json");
 //				covidCountry = (List<CovidCountry>) Helper.readJsonFile(
 //						environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY);
 				covidCountry = covidData.getCovidCouList();
-=======
-                // covidCountry = (List<CovidCountry>) Helper.readJsonFile("covidCountry.json");
-                // System.out.println("covid country read file");
-				// covidCountry = (List<CovidCountry>) Helper.readJsonFile(
-                //         environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY);
-                //         System.out.println("covid country read file end");
-                covidCountry = covidData.getCovidCouList();
->>>>>>> 1be883a68484e674c7f40c79c4a9ba5e7bec012f
 			}
 
 			responseMap.put("covidCountry", covidCountry);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return responseMap;
+	}
+
+	@Override
+	public Map<String, Object> getCountryList(Map<String,Object> requestData) {
+		Map<String, Object> responseMap = new HashMap<>();
+		try {
+			String countryName = Helper.chkString(requestData.get("countryName"));
+			
+			if(!countryName.isEmpty()) {
+				
+				CovidCountryListData covidCountryListData = covidCountryMap.getCovidCountryMap().get(countryName);
+				
+					
+					if (Objects.isNull(covidCountryListData) || Objects.isNull(covidCountryListData.getReqIntDate()) ||
+							Helper.findDifference(covidCountryListData.getReqIntDate(), new Date())) {
+						
+						covidRestApiImpl.saveApiNarrativaCovidCountryList(countryName);
+					}
+					
+					CovidCountryListData covidCountryList = covidCountryMap.getCovidCountryMap().get(countryName);
+					responseMap.put("response", covidCountryList);
+				
+			}
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return responseMap;
+	}
+
+	@Override
+	public Map<String, Object> getContinents() {
+		Map<String, Object> responseMap = new HashMap<>();
+		try {
+			boolean chkApi = false;
+
+			if (Objects.isNull(continentDate) || Helper.findDifference(continentDate, new Date())) {
+				continentDate = new Date();
+				chkApi = true;
+				covidRestApiImpl.saveCovidContinents();
+			}
+
+			if (chkApi || Objects.isNull(covidContinents)) {
+				covidContinents = covidData.getCovidContinents();
+			}
+
+			responseMap.put("covidContinents", covidContinents);
 
 		} catch (Exception e) {
 			e.printStackTrace();
