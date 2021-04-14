@@ -1,6 +1,8 @@
 package com.covid.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,8 @@ public class CovidData {
 	List<CovidCountry> covidCouList;
 	
 	List<CovidContinents> covidContinents;
+	
+	private Map<String,CovidDayOneList> covidDayOneListMap= new HashMap<>();
 
 	public CovidTotal getCovidTotal() {
 		return covidTotal;
@@ -36,6 +40,15 @@ public class CovidData {
 	public void setCovidContinents(List<CovidContinents> covidContinents) {
 		this.covidContinents = covidContinents;
 	}
+
+	public Map<String, CovidDayOneList> getCovidDayOneListMap() {
+		return covidDayOneListMap;
+	}
+
+	public void setCovidDayOneListMap(Map<String, CovidDayOneList> covidDayOneListMap) {
+		this.covidDayOneListMap = covidDayOneListMap;
+	}
+
 	
 
 }

@@ -10,5 +10,7 @@ public interface CovidService {
 	
 	public Map<String,Object> getContinents();
 	
-	public Map<String,Object> getCountryList(Map<String,Object> requestData); 
+	public Map<String,Object> getCountryList(Map<String,Object> requestData);
+	
+	public Map<String,Object> getDayOneTotal(Map<String,Object> requestData);
 }

@@ -18,6 +18,7 @@ import com.covid.model.CovidCountry;
 import com.covid.model.CovidCountryListData;
 import com.covid.model.CovidCountryMap;
 import com.covid.model.CovidData;
+import com.covid.model.CovidDayOneList;
 import com.covid.model.CovidTotal;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.covid.model.CovidData;
@@ -50,7 +51,10 @@ public class Covid19ApiServiceImpl implements CovidService {
     CovidCountryMap covidCountryMap;
     
     @Autowired
-    List<CovidContinents> covidContinents; 
+    List<CovidContinents> covidContinents;
+    
+    @Autowired
+    CovidDayOneList covidDayOneList;
 	
 	Date apiTotalDate;
 
@@ -162,6 +166,36 @@ public class Covid19ApiServiceImpl implements CovidService {
 			}
 
 			responseMap.put("covidContinents", covidContinents);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return responseMap;
+	}
+	
+	@Override
+	public Map<String, Object> getDayOneTotal(Map<String,Object> requestData) {
+		Map<String, Object> responseMap = new HashMap<>();
+		try {
+			String countryName = Helper.chkString(requestData.get("countryName"));
+			
+			if(!countryName.isEmpty()) {
+				
+				CovidDayOneList covidDayOneList = covidData.getCovidDayOneListMap().get(countryName);
+				
+					
+					if (true || Objects.isNull(covidDayOneList) || Objects.isNull(covidDayOneList.getReqIntDate()) ||
+							Helper.findDifference(covidDayOneList.getReqIntDate(), new Date())) {
+						
+						covidRestApiImpl.saveCovidDayOne(countryName);
+					}
+					
+					CovidDayOneList covidDayOneListData = covidData.getCovidDayOneListMap().get(countryName);
+					responseMap.put("response", covidDayOneListData);
+				
+			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

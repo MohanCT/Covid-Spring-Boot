@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
@@ -84,6 +85,15 @@ public class Helper {
 	 public static String getCurrentDate() {
 		 Date date = new Date();
 		 return new SimpleDateFormat("yyyy-MM-dd").format(date);
+	 }
+	 
+	 public static String getPreviousDate() {
+		 return LocalDate.now().minusDays(30).toString();
+	 }
+	 
+	 public static String convertDate(String strDate) {
+		 Date date = new Date(strDate);
+		 return new SimpleDateFormat("dd-MM-yyyy").format(date);
 	 }
 
 }

@@ -33,6 +33,8 @@ import com.covid.model.CovidCountryList;
 import com.covid.model.CovidCountryListData;
 import com.covid.model.CovidCountryMap;
 import com.covid.model.CovidData;
+import com.covid.model.CovidDayOne;
+import com.covid.model.CovidDayOneList;
 import com.covid.model.CovidState;
 import com.covid.model.CovidTotal;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,18 +47,20 @@ public class CovidRestApiImpl {
 
 	@Autowired
 	Environment environment;
-	
+
 	@Autowired
 	ObjectMapper objectMapper;
-    
-    @Autowired
+
+	@Autowired
 	CovidData covidData;
-    
-    @Autowired
-    CovidCountryMap covidCountryObj;
-    
-    Map<String, CovidCountryListData> covidCountryMap = new HashMap<>();
-    
+
+	@Autowired
+	CovidCountryMap covidCountryObj;
+
+	Map<String, CovidCountryListData> covidCountryMap = new HashMap<>();
+	
+	Map<String,CovidDayOneList> covidDayOneListMap= new HashMap<>();
+
 //    
 //    @Autowired
 //    CovidCountryListData covidCountryListData;
@@ -66,8 +70,6 @@ public class CovidRestApiImpl {
 //    
 //    @Autowired
 //    List<CovidState> covidStateList;
-    
-    
 
 	public void saveCovidApiSummary() {
 		try {
@@ -88,11 +90,12 @@ public class CovidRestApiImpl {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void saveApiCoronaTrackerCovidTotal() {
 		try {
 			ResponseEntity<String> response = restTemplate.exchange(
-					environment.getRequiredProperty("api.coronatracketotal"), HttpMethod.GET, Helper.getHttpEntityObj(), String.class);
+					environment.getRequiredProperty("api.coronatracketotal"), HttpMethod.GET, Helper.getHttpEntityObj(),
+					String.class);
 
 			if (response.getStatusCode().equals(HttpStatus.OK)) {
 				JSONObject jsonObject = new JSONObject(response.getBody());
@@ -106,31 +109,32 @@ public class CovidRestApiImpl {
 				covidTotal.setTotalNewDeaths(jsonObject.optInt("totalNewDeaths"));
 				covidTotal.setCreated(jsonObject.optString("created"));
 				System.out.println("covid total save file");
-                Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL, covidTotal);
-                System.out.println("covid total save file end");
+				Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL,
+						covidTotal);
+				System.out.println("covid total save file end");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public void saveApiCoronaTrackerCovidCountry() {
 		try {
 			ResponseEntity<String> response = restTemplate.exchange(
-					environment.getRequiredProperty("api.coronatrackecountry"), HttpMethod.GET, Helper.getHttpEntityObj(), String.class);
+					environment.getRequiredProperty("api.coronatrackecountry"), HttpMethod.GET,
+					Helper.getHttpEntityObj(), String.class);
 
 			if (response.getStatusCode().equals(HttpStatus.OK)) {
 				JSONArray jsonArray = new JSONArray(response.getBody());
-				
+
 				List<CovidCountry> covidCouList = new ArrayList<>();
-				
+
 				for (int i = 0; i < jsonArray.length(); i++) {
 					JSONObject jsonObject = jsonArray.getJSONObject(i);
-					
-					if(!"".equals(jsonObject.optString("countryCode"))) {
+
+					if (!"".equals(jsonObject.optString("countryCode"))) {
 						CovidCountry covidCountry = new CovidCountry();
-						
+
 						covidCountry.setTotalActiveCases(jsonObject.optInt("activeCases"));
 						covidCountry.setCountryCode(jsonObject.optString("countryCode"));
 						covidCountry.setCountryName(jsonObject.optString("countryName"));
@@ -146,21 +150,21 @@ public class CovidRestApiImpl {
 					}
 				}
 				System.out.println("covid country save file");
-                Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY, covidCouList);
-                System.out.println("covid country save file end");
+				Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY,
+						covidCouList);
+				System.out.println("covid country save file end");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
+
 	public void saveApiDiseaseShCovidTotal() {
 		try {
-			
+
 			ResponseEntity<String> response = restTemplate.exchange(
-					environment.getRequiredProperty("api.diseaseshcovidtotal"), HttpMethod.GET, Helper.getHttpEntityObj(), String.class);
+					environment.getRequiredProperty("api.diseaseshcovidtotal"), HttpMethod.GET,
+					Helper.getHttpEntityObj(), String.class);
 
 			if (response.getStatusCode().equals(HttpStatus.OK)) {
 				JSONObject jsonObject = new JSONObject(response.getBody());
@@ -172,33 +176,35 @@ public class CovidRestApiImpl {
 				covidTotal.setTotalRecovered(jsonObject.optInt("recovered"));
 				covidTotal.setTotalNewCases(jsonObject.optInt("todayCases"));
 				covidTotal.setTotalNewDeaths(jsonObject.optInt("todayDeaths"));
-                covidTotal.setCreated(jsonObject.optString("updated"));
-                // Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL, covidTotal);
-                covidData.setCovidTotal(covidTotal);
+				covidTotal.setCreated(jsonObject.optString("updated"));
+				// Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) +
+				// Constants.COVID19_TOTAL, covidTotal);
+				covidData.setCovidTotal(covidTotal);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void saveApiDiseaseShCovidCountry() {
 		try {
 			ResponseEntity<String> response = restTemplate.exchange(
-					environment.getRequiredProperty("api.diseaseshcovidcountry"), HttpMethod.GET, Helper.getHttpEntityObj(), String.class);
+					environment.getRequiredProperty("api.diseaseshcovidcountry"), HttpMethod.GET,
+					Helper.getHttpEntityObj(), String.class);
 
 			if (response.getStatusCode().equals(HttpStatus.OK)) {
 				JSONArray jsonArray = new JSONArray(response.getBody());
-				
+
 				List<CovidCountry> covidCouList = new ArrayList<>();
-				
+
 				for (int i = 0; i < jsonArray.length(); i++) {
 					JSONObject jsonObject = jsonArray.getJSONObject(i);
 					JSONObject countryInfo = jsonObject.getJSONObject("countryInfo");
 
-					if(!"".equals(countryInfo.optString("iso2"))) {
-						
+					if (!"".equals(countryInfo.optString("iso2"))) {
+
 						CovidCountry covidCountry = new CovidCountry();
-						
+
 						covidCountry.setTotalActiveCases(jsonObject.optInt("active"));
 						covidCountry.setCountryCode(countryInfo.optString("iso2"));
 						covidCountry.setCountryName(jsonObject.optString("country"));
@@ -213,131 +219,239 @@ public class CovidRestApiImpl {
 						covidCouList.add(covidCountry);
 					}
 				}
-				
+
 				covidCouList = covidCouList.stream()
-				        .sorted(Comparator.comparingInt(CovidCountry::getTotalCases)
-				        .reversed())
-                        .collect(Collectors.toList());
-				
-				// Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY, covidCouList);
-                covidData.setCovidCouList(covidCouList);
+						.sorted(Comparator.comparingInt(CovidCountry::getTotalCases).reversed())
+						.collect(Collectors.toList());
+
+				// Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) +
+				// Constants.COVID19_COUNTRY, covidCouList);
+				covidData.setCovidCouList(covidCouList);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public void saveApiNarrativaCovidCountryList(String countryName) {
 		try {
-//			2021-04-05
-			ResponseEntity<String> response = restTemplate.exchange("https://api.covid19tracking.narrativa.com/api/"+Helper.getCurrentDate()+"/country/"+countryName, HttpMethod.GET, Helper.getHttpEntityObj(), String.class);
 
-			if (response.getStatusCode().equals(HttpStatus.OK)) {
-				JSONObject jsonObj = new JSONObject(response.getBody());
-				
-				if(Objects.nonNull(jsonObj)) {
-					
-//					    CovidCountryMap covidCountryObj = new CovidCountryMap();
-					    
-					    CovidCountryListData covidCountryListData = new CovidCountryListData();
-					    
-					    CovidCountryList covidCountryList = new CovidCountryList();
-					    
-					    List<CovidState> covidStateList = new ArrayList<>();
-					
-					JSONObject countryObj = (JSONObject) jsonObj.optQuery("/dates/"+Helper.getCurrentDate()+"/countries/"+countryName);
-					if(Objects.nonNull(countryObj)) {
-						
-					covidCountryList.setCountryName(countryObj.optString("name"));
-					covidCountryList.setTotalActiveCases(countryObj.optInt("today_open_cases"));
-					covidCountryList.setTotalCases(countryObj.optInt("today_confirmed"));
-					covidCountryList.setTotalDeaths(countryObj.optInt("today_deaths"));
-					covidCountryList.setTotalRecovered(countryObj.optInt("today_recovered"));
-					
-					JSONArray regionList = (JSONArray) jsonObj.optQuery("/dates/"+Helper.getCurrentDate()+"/countries/"+countryName+"/regions");
-					
-					
-					for (int i = 0; i < regionList.length(); i++) {
-						JSONObject jsonCovidState = regionList.getJSONObject(i);
-						CovidState covidState = new CovidState();
-						
-						covidState.setStateName(jsonCovidState.optString("name"));
-						covidState.setTotalActiveCases(jsonCovidState.optInt("today_open_cases"));
-						covidState.setTotalCases(jsonCovidState.optInt("today_confirmed"));
-						covidState.setTotalDeaths(jsonCovidState.optInt("today_deaths"));	
-						covidState.setTotalRecovered(jsonCovidState.optInt("today_recovered"));
-						covidStateList.add(covidState);
+			if ("US".equals(countryName)) {
+
+				ResponseEntity<String> response = restTemplate.exchange(
+						"https://disease.sh/v3/covid-19/countries/us?strict=true", HttpMethod.GET,
+						Helper.getHttpEntityObj(), String.class);
+
+				if (response.getStatusCode().equals(HttpStatus.OK)) {
+					JSONObject jsonObj = new JSONObject(response.getBody());
+
+					if (Objects.nonNull(jsonObj)) {
+
+						CovidCountryListData covidCountryListData = new CovidCountryListData();
+
+						CovidCountryList covidCountryList = new CovidCountryList();
+
+						List<CovidState> covidStateList = new ArrayList<>();
+
+						covidCountryList.setCountryName(jsonObj.optString("country"));
+						covidCountryList.setTotalActiveCases(jsonObj.optInt("active"));
+						covidCountryList.setTotalCases(jsonObj.optInt("cases"));
+						covidCountryList.setTotalDeaths(jsonObj.optInt("deaths"));
+						covidCountryList.setTotalRecovered(jsonObj.optInt("recovered"));
+
+						ResponseEntity<String> usStatesRes = restTemplate.exchange(
+								"https://disease.sh/v3/covid-19/states", HttpMethod.GET, Helper.getHttpEntityObj(),
+								String.class);
+
+						if (usStatesRes.getStatusCode().equals(HttpStatus.OK)) {
+							JSONArray jsonArray = new JSONArray(usStatesRes.getBody());
+
+							if (Objects.nonNull(jsonArray)) {
+
+								for (int i = 0; i < jsonArray.length(); i++) {
+									JSONObject jsonCovidState = jsonArray.getJSONObject(i);
+									CovidState covidState = new CovidState();
+
+									covidState.setStateName(jsonCovidState.optString("state"));
+									covidState.setTotalActiveCases(jsonCovidState.optInt("active"));
+									covidState.setTotalCases(jsonCovidState.optInt("cases"));
+									covidState.setTotalDeaths(jsonCovidState.optInt("deaths"));
+									covidState.setTotalRecovered(jsonCovidState.optInt("recovered"));
+									covidStateList.add(covidState);
+								}
+
+								covidStateList = covidStateList.stream()
+										.sorted(Comparator.comparingInt(CovidState::getTotalCases).reversed())
+										.collect(Collectors.toList());
+
+								covidCountryList.setCovidStateList(covidStateList);
+								covidCountryListData.setCountryName(covidCountryList.getCountryName());
+								covidCountryListData.setCovidCountryList(covidCountryList);
+								covidCountryListData.setReqIntDate(new Date());
+								covidCountryMap.put(countryName, covidCountryListData);
+								covidCountryObj.setCovidCountryMap(covidCountryMap);
+							}
+
+						}
+
 					}
-					
-					covidStateList = covidStateList.stream()
-					        .sorted(Comparator.comparingInt(CovidState::getTotalCases)
-					        .reversed())
-	                        .collect(Collectors.toList());
-					
-					covidCountryList.setCovidStateList(covidStateList);
-					covidCountryListData.setCountryName(covidCountryList.getCountryName());
-					covidCountryListData.setCovidCountryList(covidCountryList);
-					covidCountryListData.setReqIntDate(new Date());
-					covidCountryMap.put(countryName, covidCountryListData);
-					covidCountryObj.setCovidCountryMap(covidCountryMap);
-					
-					}
-					
+
 				}
-				
-				System.out.println("complete ==>"+countryName);
+
+			} else {
+
+				ResponseEntity<String> response = restTemplate.exchange("https://api.covid19tracking.narrativa.com/api/"
+						+ Helper.getCurrentDate() + "/country/" + countryName, HttpMethod.GET,
+						Helper.getHttpEntityObj(), String.class);
+
+				if (response.getStatusCode().equals(HttpStatus.OK)) {
+					JSONObject jsonObj = new JSONObject(response.getBody());
+
+					if (Objects.nonNull(jsonObj)) {
+
+						CovidCountryListData covidCountryListData = new CovidCountryListData();
+
+						CovidCountryList covidCountryList = new CovidCountryList();
+
+						List<CovidState> covidStateList = new ArrayList<>();
+
+						JSONObject countryObj = (JSONObject) jsonObj
+								.optQuery("/dates/" + Helper.getCurrentDate() + "/countries/" + countryName);
+						if (Objects.nonNull(countryObj)) {
+
+							covidCountryList.setCountryName(countryObj.optString("name"));
+							covidCountryList.setTotalActiveCases(countryObj.optInt("today_open_cases"));
+							covidCountryList.setTotalCases(countryObj.optInt("today_confirmed"));
+							covidCountryList.setTotalDeaths(countryObj.optInt("today_deaths"));
+							covidCountryList.setTotalRecovered(countryObj.optInt("today_recovered"));
+
+							JSONArray regionList = (JSONArray) jsonObj.optQuery(
+									"/dates/" + Helper.getCurrentDate() + "/countries/" + countryName + "/regions");
+
+							for (int i = 0; i < regionList.length(); i++) {
+								JSONObject jsonCovidState = regionList.getJSONObject(i);
+								CovidState covidState = new CovidState();
+
+								covidState.setStateName(jsonCovidState.optString("name"));
+								covidState.setTotalActiveCases(jsonCovidState.optInt("today_open_cases"));
+								covidState.setTotalCases(jsonCovidState.optInt("today_confirmed"));
+								covidState.setTotalDeaths(jsonCovidState.optInt("today_deaths"));
+								covidState.setTotalRecovered(jsonCovidState.optInt("today_recovered"));
+								covidStateList.add(covidState);
+							}
+
+							covidStateList = covidStateList.stream()
+									.sorted(Comparator.comparingInt(CovidState::getTotalCases).reversed())
+									.collect(Collectors.toList());
+
+							covidCountryList.setCovidStateList(covidStateList);
+							covidCountryListData.setCountryName(covidCountryList.getCountryName());
+							covidCountryListData.setCovidCountryList(covidCountryList);
+							covidCountryListData.setReqIntDate(new Date());
+							covidCountryMap.put(countryName, covidCountryListData);
+							covidCountryObj.setCovidCountryMap(covidCountryMap);
+
+						}
+
+					}
+
+				}
+
+				System.out.println("complete ==>" + countryName);
 //				covidCountryMap.setCovidCountryMap(covidCountryMap);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public void saveCovidContinents() {
 		try {
-			
-			ResponseEntity<String> response = restTemplate.exchange(
-					"https://disease.sh/v3/covid-19/continents", HttpMethod.GET, Helper.getHttpEntityObj(), String.class);
+
+			ResponseEntity<String> response = restTemplate.exchange("https://disease.sh/v3/covid-19/continents",
+					HttpMethod.GET, Helper.getHttpEntityObj(), String.class);
 
 			if (response.getStatusCode().equals(HttpStatus.OK)) {
 				JSONArray jsonArray = new JSONArray(response.getBody());
-				
-				if(Objects.nonNull(jsonArray)) {
-				
-				List<CovidContinents> covidContinentsList = new ArrayList<>();
 
-				for (int i = 0; i < jsonArray.length(); i++) {
-					JSONObject jsonObject = jsonArray.getJSONObject(i);
-				
-					CovidContinents  covidContinents = new CovidContinents();
-					covidContinents.setContinent(jsonObject.optString("continent"));
-					covidContinents.setPopulation(jsonObject.optInt("population"));
-					covidContinents.setTodayCases(jsonObject.optInt("todayCases"));
-					covidContinents.setTodayDeaths(jsonObject.optInt("todayDeaths"));
-					covidContinents.setTodayRecovered(jsonObject.optInt("todayRecovered"));
-					covidContinents.setTotalActiveCases(jsonObject.optInt("active"));
-					covidContinents.setTotalCases(jsonObject.optInt("cases"));
-					covidContinents.setTotalCritical(jsonObject.optInt("critical"));
-					covidContinents.setTotalDeaths(jsonObject.optInt("deaths"));
-					covidContinents.setTotalRecovered(jsonObject.optInt("recovered"));
-					covidContinents.setTotalTests(jsonObject.optInt("tests"));
-					covidContinentsList.add(covidContinents);
-				}
-				
-				covidContinentsList = covidContinentsList.stream()
-				        .sorted(Comparator.comparingInt(CovidContinents::getTotalCases)
-				        .reversed())
-                        .collect(Collectors.toList());
-				
-                covidData.setCovidContinents(covidContinentsList);
-                
+				if (Objects.nonNull(jsonArray)) {
+
+					List<CovidContinents> covidContinentsList = new ArrayList<>();
+
+					for (int i = 0; i < jsonArray.length(); i++) {
+						JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+						CovidContinents covidContinents = new CovidContinents();
+						covidContinents.setContinent(jsonObject.optString("continent"));
+						covidContinents.setPopulation(jsonObject.optInt("population"));
+						covidContinents.setTodayCases(jsonObject.optInt("todayCases"));
+						covidContinents.setTodayDeaths(jsonObject.optInt("todayDeaths"));
+						covidContinents.setTodayRecovered(jsonObject.optInt("todayRecovered"));
+						covidContinents.setTotalActiveCases(jsonObject.optInt("active"));
+						covidContinents.setTotalCases(jsonObject.optInt("cases"));
+						covidContinents.setTotalCritical(jsonObject.optInt("critical"));
+						covidContinents.setTotalDeaths(jsonObject.optInt("deaths"));
+						covidContinents.setTotalRecovered(jsonObject.optInt("recovered"));
+						covidContinents.setTotalTests(jsonObject.optInt("tests"));
+						covidContinentsList.add(covidContinents);
+					}
+
+					covidContinentsList = covidContinentsList.stream()
+							.sorted(Comparator.comparingInt(CovidContinents::getTotalCases).reversed())
+							.collect(Collectors.toList());
+
+					covidData.setCovidContinents(covidContinentsList);
+
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public void saveCovidDayOne(String countryName) {
+		try {
+
+			ResponseEntity<String> response = restTemplate.exchange("https://api.covid19api.com/country/"+countryName+"?from="+Helper.getPreviousDate()+"&to="+Helper.getCurrentDate(),
+					HttpMethod.GET, Helper.getHttpEntityObj(), String.class);
+
+			if (response.getStatusCode().equals(HttpStatus.OK)) {
+				JSONArray jsonArray = new JSONArray(response.getBody());
+
+				if (Objects.nonNull(jsonArray)) {
+
+					List<CovidDayOne> covidDayOneList = new ArrayList<>();
+
+					for (int i = 0; i < jsonArray.length(); i++) {
+						JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+						CovidDayOne covidDayOne = new CovidDayOne();
+						covidDayOne.setActive(jsonObject.optInt("Active"));
+						covidDayOne.setCases(jsonObject.optInt("Confirmed"));
+						covidDayOne.setDate(jsonObject.optString("Date"));
+						covidDayOne.setDeaths(jsonObject.optInt("Deaths"));
+						covidDayOne.setRecovered(jsonObject.optInt("Recovered"));
+						covidDayOneList.add(covidDayOne);
+					}
+
+					covidDayOneList = covidDayOneList.stream()
+							.sorted(Comparator.comparingInt(CovidDayOne::getCases).reversed())
+							.collect(Collectors.toList());
+					CovidDayOneList covidDayOneObj = new CovidDayOneList();
+					covidDayOneObj.setCountryName(countryName);
+					covidDayOneObj.setReqIntDate(new Date());
+					covidDayOneObj.setCovidDayOne(covidDayOneList);
+					
+					covidDayOneListMap.put(countryName, covidDayOneObj);
+					covidData.setCovidDayOneListMap(covidDayOneListMap);
+
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 }
