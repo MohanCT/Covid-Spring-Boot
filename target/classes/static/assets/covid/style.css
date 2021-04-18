@@ -59,6 +59,7 @@ Version: v1.0.0
 ------------------------------------- */
 /* Import Fonts & CSS Files */
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;700&amp;family=Roboto:wght@400;500&amp;display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,700;1,800;1,900&display=swap');
 @import url(css/bootstrap.min.css);
 @import url(css/owl.carousel.min.css);
 @import url(css/animate.css);
@@ -100,7 +101,7 @@ Version: v1.0.0
   color: #333; }
 
 .corona-count-content h4 {
-  font-size: 15px;
+  font-size: 20px;
   margin-top: 20px;
   color: #364a63; }
 .corona-count-content h2 {
@@ -111,7 +112,7 @@ Version: v1.0.0
   margin-right: 15px; }
 
 .list-view .dataTables_filter input {
-  border: 1px solid #0c1590;
+  border: 1px solid #fff;
   padding: 5px 10px;
   width: 300px;
   outline: none; }
@@ -125,11 +126,12 @@ Version: v1.0.0
   font-size: 13px;
   -webkit-transition: 0.4s;
   -o-transition: 0.4s;
-  transition: 0.4s; }
+  transition: 0.4s; 
+color: #fff !important;}
 
 .list-view .dataTables_wrapper .dataTables_paginate a.paginate_button.current {
-  background: #0c1590 !important;
-  border-color: #0c1590 !important;
+  background: #161625 !important;
+  border-color: #161625 !important;
   color: #FFFFFF !important; }
 
 table.dataTable thead th,
@@ -180,7 +182,8 @@ table.dataTable thead td {
       padding: 20px 10px; } }
   @media only screen and (min-width: 576px) and (max-width: 767px) {
     .things-not-to-do-area li {
-      padding: 20px; } }
+      padding: 20px; }
+      div#list-view ul }
 
 .thing-image-text-content .things-text h4 {
   font-size: 17px;
@@ -361,7 +364,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 div.dataTables_wrapper div.dataTables_info {
   padding-top: 0;
-  margin-top: 15px; }
+  margin-top: 15px;
+color:#fff; }
 
 .funding-list {
   padding-left: 20px; }
@@ -734,7 +738,8 @@ image.amcharts-zoom-out-image {
 
 .table thead th {
   border-bottom: 1px solid #e2e8f0;
-  font-weight: 600; }
+  font-weight: 600;
+color:#63afd1; }
 
 /* :: Password CSS */
 .forget-password-area {
@@ -2412,10 +2417,10 @@ image.amcharts-zoom-out-image {
   padding: 0; }
 
 body {
-  background-color: #F1F5F8;
+  background-color: #161625;
   color: #495057;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 14px;
   line-height: 1.7; }
 
@@ -2426,8 +2431,8 @@ h4,
 h5,
 h6 {
   line-height: 1.4;
-  color: #27303f;
-  font-family: "Open Sans", sans-serif;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
   font-weight: 600; }
 
 p {
@@ -2435,14 +2440,14 @@ p {
   line-height: 1.7;
   font-size: 15px;
   font-weight: 400;
-  font-family: "Roboto", sans-serif; }
+  font-family: "Poppins", sans-serif; }
 
 a,
 a:hover,
 a:focus {
   text-decoration: none;
   outline: 0 solid transparent;
-  font-family: "Open Sans", sans-serif; }
+  font-family: "Poppins", sans-serif; }
 
 ul,
 ol {
@@ -3020,12 +3025,15 @@ button:focus {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #fff;
+  background-color: #1e1e30;
   background-clip: border-box;
   border: none;
   border-radius: 16px;
   -webkit-box-shadow: 0px 3px 20px #0000000b;
   box-shadow: 0px 3px 20px #0000000b; }
+  th.sorting {
+    color: #c8eeff;
+}
 
 .box-shadow-cu {
   -webkit-box-shadow: 0 0 13px 0 rgba(0, 0, 0, 0.15);
@@ -3156,10 +3164,10 @@ button:focus {
     font-size: 14px; } }
 
 .card-title {
-  font-size: 18px;
+  font-size: 22px;
   margin-bottom: 30px;
   text-transform: capitalize;
-  color: #27303f;
+  color: #fff;
   line-height: 1.4; }
   @media only screen and (max-width: 767px) {
     .card-title {
@@ -4312,7 +4320,7 @@ input::-ms-input-placeholder {
 .footer-area {
   position: relative;
   z-index: 1;
-  background-color: #ffffff;
+  background-color: #1e1e30;
   width: 100%;
   padding: 20px;
   -webkit-box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
@@ -4331,7 +4339,7 @@ input::-ms-input-placeholder {
   font-weight: 500; }
 
 .footer-area .copywrite-text p a {
-  color: #0c1590;
+  color: #2f8fba;
   font-size: 14px;
   font-weight: 500; }
 
@@ -4878,8 +4886,7 @@ bx-tada {
     max-width: 1140px; } }
 .horizontal-menu .top-navbar {
   font-weight: 400;
-  background: #0c1590;
-  border-bottom: 1px solid #c9ccd7; }
+  background: #1E1E30; }
 
 .horizontal-menu .top-navbar .navbar-brand-wrapper {
   width: auto;
@@ -5310,7 +5317,9 @@ bx-tada {
   transition-property: position, left, right, top, z-index;
   box-shadow: 0 15px 10px -15px #d2d2f2;
   -webkit-box-shadow: 0 15px 10px -15px #d2d2f2;
-  -moz-box-shadow: 0 15px 10px -15px #d2d2f2; }
+  -moz-box-shadow: 0 15px 10px -15px #d2d2f2;
+display:none;
+ }
 
 @media (max-width: 991.98px) {
   .horizontal-menu .bottom-navbar {
@@ -5666,8 +5675,8 @@ bx-tada {
   display: none;
 }
 .corona-count-content h2 {
-  font-size: 24px;
-  font-weight: 900;
+  font-size: 23px;
+  font-weight: 600;
 }
 .card.mb-30.bg-success.color-1 {
   background: #510c90 !important;
@@ -5693,4 +5702,101 @@ table.table.table-hover.table-nowrap td img {
 }
 .donet-fund-area.mb-30 {
   display: none;
+}
+/*  */
+h4.mb-2.font-20 {
+  color: #fff;
+  font-size:26px !important;
+}
+.jvectormap-container {
+  background: #1e1e30 !important;
+}
+table.dataTable tbody th, table.dataTable tbody td {
+  padding: 8px 10px;
+  color: #cfcfcf !important;
+}
+table.dataTable tbody tr {
+  background-color: #24243b !important;
+}
+label {
+  color: #fff;
+}
+.table td, .table th {
+
+  border-top: 1px solid #000000 !important;
+  color:#fff;
+}
+.dataTables_wrapper .dataTables_length select {
+
+  color: #fff !important;
+}
+.dataTables_wrapper .dataTables_filter input{
+  color:#fff !important;
+}
+table.dataTable tbody th, table.dataTable tbody td {
+  padding: 8px 10px;
+  font-size: 16px  !important;
+}
+.row.worldwide-stats .card {
+  background-color: #2c2c40 !important;
+}
+.row.worldwide-stats .card-body {
+  background-color: #24243b  !important;
+  border-radius:12px;
+}
+div#list-view ul {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+div#list-view ul li{
+font-size:17px;
+color:#fff;
+cursor: pointer;
+margin-bottom: 5px;
+}
+div#list-view ul li img{
+width:30px;
+margin-right:5px;
+  }
+  .dataTables_wrapper .dataTables_paginate .paginate_button{
+    color:#fff !important;
+  }
+  table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1 {
+    background-color: #161625 i !important;
+}
+table.dataTable.display tbody tr:hover>.sorting_1, table.dataTable.order-column.hover tbody tr:hover>.sorting_1 {
+  background-color: #eaeaea !important;
+}
+table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1 {
+  background-color: #1e1e30 !important;
+}
+table.dataTable.display tbody tr.even>.sorting_1, table.dataTable.order-column.stripe tbody tr.even>.sorting_1 {
+  background-color: #1e1e30 !important;
+}
+table.dataTable.display tbody tr.even>.sorting_1, table.dataTable.order-column.stripe tbody tr.even>.sorting_1 {
+  background-color: #161625 !important;
+}
+
+@media only screen and (max-width : 1429px) {
+  .corona-count-content h4{
+    font-size:15px;
+  }
+  .row.worldwide-stats .card-body{
+    max-height:210px;
+  }
+  .corona-count-content h2{
+    font-size:17px;
+  }
+}
+@media only screen and (max-width : 480px) {
+  div#list-view ul {
+    display: block !important;
+    margin-bottom:5px;
+}
+
+}
+.head-da h2 {
+  font-size: 26px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
