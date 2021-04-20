@@ -20,5 +20,15 @@ public class AppRouting {
 	public String getAppCountry() {
 		return "index.html";
 	}
+	
+	@GetMapping(path = "/sitemap.xml")
+	public String getSiteMap() {
+		return "sitemap.xml";
+	}
+	
+	@GetMapping(path = "/robots.txt")
+	public String getRobots() {
+		return "robots.txt";
+	}
 
 }

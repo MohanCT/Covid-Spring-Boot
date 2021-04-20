@@ -185,7 +185,7 @@ public class Covid19ApiServiceImpl implements CovidService {
 				CovidDayOneList covidDayOneList = covidData.getCovidDayOneListMap().get(countryName);
 				
 					
-					if (true || Objects.isNull(covidDayOneList) || Objects.isNull(covidDayOneList.getReqIntDate()) ||
+					if (Objects.isNull(covidDayOneList) || Objects.isNull(covidDayOneList.getReqIntDate()) ||
 							Helper.findDifference(covidDayOneList.getReqIntDate(), new Date())) {
 						
 						covidRestApiImpl.saveCovidDayOne(countryName);

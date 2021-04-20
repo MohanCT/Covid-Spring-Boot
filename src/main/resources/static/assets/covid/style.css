@@ -4339,7 +4339,7 @@ input::-ms-input-placeholder {
   font-weight: 500; }
 
 .footer-area .copywrite-text p a {
-  color: #2f8fba;
+  color: #fff;
   font-size: 14px;
   font-weight: 500; }
 
@@ -4466,7 +4466,8 @@ input::-ms-input-placeholder {
     justify-content: center;
     margin-top: 5px; } }
 .fotter-icon p {
-  font-weight: 500; }
+  font-weight: 500;
+color:#fff; }
 
 .main-page-content {
   position: relative;
@@ -5694,6 +5695,9 @@ display:none;
   background-color: #128807 !important;
 }
 div#world-map {
+  width: 100% !important;
+}
+div#country-map {
   width: 100% !important;
 }
 table.table.table-hover.table-nowrap td img {

@@ -108,10 +108,8 @@ public class CovidRestApiImpl {
 				covidTotal.setTotalNewCases(jsonObject.optInt("totalNewCases"));
 				covidTotal.setTotalNewDeaths(jsonObject.optInt("totalNewDeaths"));
 				covidTotal.setCreated(jsonObject.optString("created"));
-				System.out.println("covid total save file");
 				Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_TOTAL,
 						covidTotal);
-				System.out.println("covid total save file end");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -149,10 +147,8 @@ public class CovidRestApiImpl {
 						covidCouList.add(covidCountry);
 					}
 				}
-				System.out.println("covid country save file");
 				Helper.saveJsonFile(environment.getRequiredProperty(Constants.COVID_FILE) + Constants.COVID19_COUNTRY,
 						covidCouList);
-				System.out.println("covid country save file end");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -357,8 +353,6 @@ public class CovidRestApiImpl {
 
 				}
 
-				System.out.println("complete ==>" + countryName);
-//				covidCountryMap.setCovidCountryMap(covidCountryMap);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

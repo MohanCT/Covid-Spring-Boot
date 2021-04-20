@@ -1,0 +1,7 @@
+USer-agent : *
+Disallow: /?SID
+Disallow: /admin/
+Disallow: /404 
+Disallow: /blog
+Disallow: /*?*
+Sitemap : https://www.covidtracker19.com/sitemap.xml
