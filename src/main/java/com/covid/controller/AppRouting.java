@@ -21,12 +21,12 @@ public class AppRouting {
 		return "index.html";
 	}
 	
-	@GetMapping(path = "/sitemap.xml")
+	@GetMapping(path = "/sitemap.xml" ,produces = "application/xml" )
 	public String getSiteMap() {
 		return "sitemap.xml";
 	}
 	
-	@GetMapping(path = "/robots.txt")
+	@GetMapping(path = "/robots.txt" ,produces = "application/text")
 	public String getRobots() {
 		return "robots.txt";
 	}
