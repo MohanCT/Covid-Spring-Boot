@@ -37,6 +37,8 @@ import com.covid.model.CovidDayOne;
 import com.covid.model.CovidDayOneList;
 import com.covid.model.CovidState;
 import com.covid.model.CovidTotal;
+import com.covid.model.CovidVaccine;
+import com.covid.model.CovidVaccineList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -58,8 +60,10 @@ public class CovidRestApiImpl {
 	CovidCountryMap covidCountryObj;
 
 	Map<String, CovidCountryListData> covidCountryMap = new HashMap<>();
-	
-	Map<String,CovidDayOneList> covidDayOneListMap= new HashMap<>();
+
+	Map<String, CovidDayOneList> covidDayOneListMap = new HashMap<>();
+
+	Map<String, CovidVaccineList> covidVaccineListMap = new HashMap<>();
 
 //    
 //    @Autowired
@@ -402,12 +406,15 @@ public class CovidRestApiImpl {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void saveCovidDayOne(String countryName) {
 		try {
 
-			ResponseEntity<String> response = restTemplate.exchange("https://api.covid19api.com/country/"+countryName+"?from="+Helper.getPreviousDate()+"&to="+Helper.getCurrentDate(),
-					HttpMethod.GET, Helper.getHttpEntityObj(), String.class);
+			ResponseEntity<String> response = restTemplate
+					.exchange(
+							"https://api.covid19api.com/country/" + countryName + "?from=" + Helper.getPreviousDate()
+									+ "&to=" + Helper.getCurrentDate(),
+							HttpMethod.GET, Helper.getHttpEntityObj(), String.class);
 
 			if (response.getStatusCode().equals(HttpStatus.OK)) {
 				JSONArray jsonArray = new JSONArray(response.getBody());
@@ -435,7 +442,7 @@ public class CovidRestApiImpl {
 					covidDayOneObj.setCountryName(countryName);
 					covidDayOneObj.setReqIntDate(new Date());
 					covidDayOneObj.setCovidDayOne(covidDayOneList);
-					
+
 					covidDayOneListMap.put(countryName, covidDayOneObj);
 					covidData.setCovidDayOneListMap(covidDayOneListMap);
 
@@ -445,7 +452,44 @@ public class CovidRestApiImpl {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+	public void saveCovidVaccine(String countryName) {
+		try {
+			ResponseEntity<String> response = restTemplate.exchange(
+					"https://disease.sh/v3/covid-19/vaccine/coverage/countries/" + countryName + "?lastdays=30",
+					HttpMethod.GET, Helper.getHttpEntityObj(), String.class);
+
+			if (response.getStatusCode().equals(HttpStatus.OK)) {
+				JSONObject jsonObject = new JSONObject(response.getBody());
+
+				JSONObject jsonTimeLine = jsonObject.optJSONObject("timeline");
+
+				if (Objects.nonNull(jsonTimeLine)) {
+					List<CovidVaccine> covidVaccineList = new ArrayList<>();
+					for (String keyStr : jsonTimeLine.keySet()) {
+						CovidVaccine covidVaccine = new CovidVaccine();
+						covidVaccine.setDate(keyStr);
+						covidVaccine.setVaccineCount(jsonTimeLine.getInt(keyStr));
+						covidVaccineList.add(covidVaccine);
+					}
+
+					covidVaccineList = covidVaccineList.stream()
+							.sorted(Comparator.comparingInt(CovidVaccine::getVaccineCount).reversed())
+							.collect(Collectors.toList());
+
+					CovidVaccineList covidVaccineListData = new CovidVaccineList();
+					covidVaccineListData.setCountryName(countryName);
+					covidVaccineListData.setReqIntDate(new Date());
+					covidVaccineListData.setCovidVaccine(covidVaccineList);
+
+					covidVaccineListMap.put(countryName, covidVaccineListData);
+					covidData.setCovidVaccineListMap(covidVaccineListMap);
+
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

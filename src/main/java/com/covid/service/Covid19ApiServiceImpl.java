@@ -20,6 +20,7 @@ import com.covid.model.CovidCountryMap;
 import com.covid.model.CovidData;
 import com.covid.model.CovidDayOneList;
 import com.covid.model.CovidTotal;
+import com.covid.model.CovidVaccineList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.covid.model.CovidData;
 
@@ -193,6 +194,36 @@ public class Covid19ApiServiceImpl implements CovidService {
 					
 					CovidDayOneList covidDayOneListData = covidData.getCovidDayOneListMap().get(countryName);
 					responseMap.put("response", covidDayOneListData);
+				
+			}
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return responseMap;
+	}
+	
+	@Override
+	public Map<String, Object> getCountryVaccine(Map<String,Object> requestData) {
+		Map<String, Object> responseMap = new HashMap<>();
+		try {
+			String countryName = Helper.chkString(requestData.get("countryName"));
+			
+			if(!countryName.isEmpty()) {
+				
+				CovidVaccineList covidVaccineList = covidData.getCovidVaccineListMap().get(countryName);
+				
+					
+					if (Objects.isNull(covidVaccineList) || Objects.isNull(covidVaccineList.getReqIntDate()) ||
+							Helper.findDifference(covidVaccineList.getReqIntDate(), new Date())) {
+						
+						covidRestApiImpl.saveCovidVaccine(countryName);
+					}
+					
+					CovidVaccineList covidVaccineListData = covidData.getCovidVaccineListMap().get(countryName);
+					responseMap.put("response", covidVaccineListData);
 				
 			}
 			

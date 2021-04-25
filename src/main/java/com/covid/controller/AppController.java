@@ -52,6 +52,12 @@ public class AppController {
 		return new ResponseEntity<>(responseMap,HttpStatus.OK);
 	}
 	
+	@PostMapping(value="/getCountryVaccine")
+	public ResponseEntity<Map<String,Object>> getCountryVaccine(@RequestBody Map<String,Object> requestData){
+		Map<String,Object> responseMap = covidService.getCountryVaccine(requestData);
+		return new ResponseEntity<>(responseMap,HttpStatus.OK);
+	}
+	
 	
 //	@GetMapping(value="/getTotalCovidCases1")
 //	public ResponseEntity<Map<String,Object>> getTotalCovidCases(){
