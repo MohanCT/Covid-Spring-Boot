@@ -20,6 +20,7 @@ import com.covid.model.CovidCountryMap;
 import com.covid.model.CovidData;
 import com.covid.model.CovidDayOneList;
 import com.covid.model.CovidTotal;
+import com.covid.model.CovidVaccine;
 import com.covid.model.CovidVaccineList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.covid.model.CovidData;
@@ -55,6 +56,9 @@ public class Covid19ApiServiceImpl implements CovidService {
     List<CovidContinents> covidContinents;
     
     @Autowired
+    List<CovidVaccine> covidVaccine;
+    
+    @Autowired
     CovidDayOneList covidDayOneList;
 	
 	Date apiTotalDate;
@@ -62,6 +66,8 @@ public class Covid19ApiServiceImpl implements CovidService {
 	Date apiCountryDate;
 	
 	Date continentDate;
+	
+	Date globalVaccineDate;
 
 	@Override
 	public Map<String, Object> getTotalCovidCases() {
@@ -227,6 +233,32 @@ public class Covid19ApiServiceImpl implements CovidService {
 				
 			}
 			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return responseMap;
+	}
+	
+	
+	@Override
+	public Map<String, Object> getGlobalVaccine() {
+		Map<String, Object> responseMap = new HashMap<>();
+		try {
+			boolean chkApi = false;
+
+			if (Objects.isNull(covidContinents) || Objects.isNull(globalVaccineDate) || Helper.findDifference(globalVaccineDate, new Date())) {
+				globalVaccineDate = new Date();
+				chkApi = true;
+				covidRestApiImpl.saveGlobalVaccine();
+			}
+
+			if (chkApi || Objects.isNull(covidContinents)) {
+				covidVaccine = covidData.getCovidVaccine();
+			}
+
+			responseMap.put("covidVaccine", covidVaccine);
 
 		} catch (Exception e) {
 			e.printStackTrace();

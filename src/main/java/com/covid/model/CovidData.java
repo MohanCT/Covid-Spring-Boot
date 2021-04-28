@@ -15,6 +15,8 @@ public class CovidData {
 	
 	List<CovidContinents> covidContinents;
 	
+	List<CovidVaccine> covidVaccine;
+	
 	private Map<String,CovidDayOneList> covidDayOneListMap= new HashMap<>();
 	
 	private Map<String,CovidVaccineList> covidVaccineListMap= new HashMap<>();
@@ -57,6 +59,14 @@ public class CovidData {
 
 	public void setCovidVaccineListMap(Map<String, CovidVaccineList> covidVaccineListMap) {
 		this.covidVaccineListMap = covidVaccineListMap;
+	}
+
+	public List<CovidVaccine> getCovidVaccine() {
+		return covidVaccine;
+	}
+
+	public void setCovidVaccine(List<CovidVaccine> covidVaccine) {
+		this.covidVaccine = covidVaccine;
 	}
 
 	

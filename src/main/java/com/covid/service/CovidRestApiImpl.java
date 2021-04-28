@@ -64,7 +64,7 @@ public class CovidRestApiImpl {
 	Map<String, CovidDayOneList> covidDayOneListMap = new HashMap<>();
 
 	Map<String, CovidVaccineList> covidVaccineListMap = new HashMap<>();
-
+	
 //    
 //    @Autowired
 //    CovidCountryListData covidCountryListData;
@@ -485,6 +485,40 @@ public class CovidRestApiImpl {
 					covidVaccineListMap.put(countryName, covidVaccineListData);
 					covidData.setCovidVaccineListMap(covidVaccineListMap);
 
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void saveGlobalVaccine() {
+		try {
+			ResponseEntity<String> response = restTemplate.exchange("https://disease.sh/v3/covid-19/vaccine/coverage?lastdays=30",
+					HttpMethod.GET, Helper.getHttpEntityObj(), String.class);
+
+			if (response.getStatusCode().equals(HttpStatus.OK)) {
+				JSONObject jsonObject = new JSONObject(response.getBody());
+
+				if (Objects.nonNull(jsonObject)) {
+					List<CovidVaccine> covidVaccineList = new ArrayList<>();
+					for (String keyStr : jsonObject.keySet()) {
+						CovidVaccine covidVaccine = new CovidVaccine();
+						covidVaccine.setDate(keyStr);
+						covidVaccine.setVaccineCount(jsonObject.getInt(keyStr));
+						covidVaccineList.add(covidVaccine);
+					}
+
+					covidVaccineList = covidVaccineList.stream()
+							.sorted(Comparator.comparingInt(CovidVaccine::getVaccineCount).reversed())
+							.collect(Collectors.toList());
+
+					CovidVaccineList covidVaccineListData = new CovidVaccineList();
+					covidVaccineListData.setCountryName("");
+					covidVaccineListData.setReqIntDate(new Date());
+					covidVaccineListData.setCovidVaccine(covidVaccineList);
+					
+					covidData.setCovidVaccine(covidVaccineList);
 				}
 			}
 		} catch (Exception e) {
