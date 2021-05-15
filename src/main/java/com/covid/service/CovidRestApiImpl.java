@@ -236,7 +236,7 @@ public class CovidRestApiImpl {
 	public void saveApiNarrativaCovidCountryList(String countryName) {
 		try {
 
-			if ("US".equals(countryName)) {
+			if ("US".equalsIgnoreCase(countryName)) {
 
 				ResponseEntity<String> response = restTemplate.exchange(
 						"https://disease.sh/v3/covid-19/countries/us?strict=true", HttpMethod.GET,

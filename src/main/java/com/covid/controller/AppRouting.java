@@ -19,23 +19,23 @@ public class AppRouting {
 	
 	
 	
-	@GetMapping(path = "/")
+	@GetMapping(path = "")
 	public String getIndex(Model model) {
 		model.addAttribute("pageTitle", "COVID Tracker 19 | Live Coronavirus Updates");
-		model.addAttribute("pageCano", "https://www.covidtracker19.com/index");
+		model.addAttribute("pageCano", "https://www.covidtracker19.com");
 		model.addAttribute("pageDesc", "Find live COVID status updates in world with up to date cases, vaccination counts and maps with COVID Tracker 19.");
 		model.addAttribute("pageKey", "covid tracker, corona tracker, covid-19, covid near me, covid 19 map, covid update, covid death rate, covid deaths, covid 19 update, coronavirus case, covid case, covid count,covid vaccination count");
         return "index.html";
 	}
 	
-	@GetMapping(path = "/index")
-	public String getAppIndex(Model model) {
-		model.addAttribute("pageTitle", "COVID Tracker 19 | Live Coronavirus Updates");
-		model.addAttribute("pageCano", "https://www.covidtracker19.com/index");
-		model.addAttribute("pageDesc", "Find live COVID status updates in world with up to date cases, vaccination counts and maps with COVID Tracker 19.");
-		model.addAttribute("pageKey", "covid tracker, corona tracker, covid-19, covid near me, covid 19 map, covid update, covid death rate, covid deaths, covid 19 update, coronavirus case, covid case, covid count,covid vaccination count");
-		return "index.html";
-	}
+//	@GetMapping(path = "/index")
+//	public String getAppIndex(Model model) {
+//		model.addAttribute("pageTitle", "COVID Tracker 19 | Live Coronavirus Updates");
+//		model.addAttribute("pageCano", "https://www.covidtracker19.com/index");
+//		model.addAttribute("pageDesc", "Find live COVID status updates in world with up to date cases, vaccination counts and maps with COVID Tracker 19.");
+//		model.addAttribute("pageKey", "covid tracker, corona tracker, covid-19, covid near me, covid 19 map, covid update, covid death rate, covid deaths, covid 19 update, coronavirus case, covid case, covid count,covid vaccination count");
+//		return "index.html";
+//	}
 	
 	@GetMapping(path = "/country/{id}")
 	public String getAppCountry(@PathVariable("id") String countryName,Model model) {
