@@ -22,6 +22,8 @@ import com.covid.model.CovidDayOneList;
 import com.covid.model.CovidTotal;
 import com.covid.model.CovidVaccine;
 import com.covid.model.CovidVaccineList;
+import com.covid.model.TamilNaduDisList;
+import com.covid.model.TamilNaduHosList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.covid.model.CovidData;
 
@@ -60,6 +62,9 @@ public class Covid19ApiServiceImpl implements CovidService {
     
     @Autowired
     CovidDayOneList covidDayOneList;
+    
+    @Autowired
+    List<TamilNaduDisList> tamilNaduDisList;
 	
 	Date apiTotalDate;
 
@@ -68,6 +73,8 @@ public class Covid19ApiServiceImpl implements CovidService {
 	Date continentDate;
 	
 	Date globalVaccineDate;
+	
+	Date tnDisDate;
 
 	@Override
 	public Map<String, Object> getTotalCovidCases() {
@@ -259,6 +266,51 @@ public class Covid19ApiServiceImpl implements CovidService {
 			}
 
 			responseMap.put("covidVaccine", covidVaccine);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return responseMap;
+	}
+
+	@Override
+	public Map<String, Object> getDistrictList() {
+		Map<String, Object> responseMap = new HashMap<>();
+		try {
+			boolean chkApi = false;
+
+			if (Objects.isNull(tamilNaduDisList) || Objects.isNull(tnDisDate) || Helper.findDifference(tnDisDate, new Date())) {
+				tnDisDate = new Date();
+				chkApi = true;
+				covidRestApiImpl.getDistrictList();
+			}
+
+			if (chkApi || Objects.isNull(tamilNaduDisList)) {
+				tamilNaduDisList = covidData.getTamilNaduDisList();
+			}
+
+			responseMap.put("tamilNaduDisList", tamilNaduDisList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return responseMap;
+	}
+
+	@Override
+	public Map<String, Object> getHospitalList(String id) {
+		Map<String, Object> responseMap = new HashMap<>();
+		try {
+
+			TamilNaduHosList tamilNaduHosList = covidData.getTamilNaduHosListMap().get(id);	
+			
+			if (Objects.isNull(tamilNaduHosList) || Objects.isNull(tamilNaduHosList.getReqIntDate()) || Helper.findDifference(tamilNaduHosList.getReqIntDate(), new Date())) {
+				covidRestApiImpl.getHospitalList(id);
+			}
+			TamilNaduHosList tamilNaduHosUpdList = covidData.getTamilNaduHosListMap().get(id);	
+			responseMap.put("hospitalList", tamilNaduHosUpdList);
 
 		} catch (Exception e) {
 			e.printStackTrace();

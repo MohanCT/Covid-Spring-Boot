@@ -64,6 +64,21 @@ public class AppController {
 		return new ResponseEntity<>(responseMap,HttpStatus.OK);
 	}
 	
+	@PostMapping(value="/getDistrictList")
+	public ResponseEntity<Map<String,Object>> getDistrictList(){
+		Map<String,Object> responseMap = covidService.getDistrictList();
+		return new ResponseEntity<>(responseMap,HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/getHospitalList")
+	public ResponseEntity<Map<String,Object>> getHospitalList(@RequestBody Map responseBody){
+		String id = String.valueOf(responseBody.get("id"));
+		Map<String,Object> responseMap = covidService.getHospitalList(id);
+		return new ResponseEntity<>(responseMap,HttpStatus.OK);
+	}
+	
+	
+	
 	
 //	@GetMapping(value="/getTotalCovidCases1")
 //	public ResponseEntity<Map<String,Object>> getTotalCovidCases(){

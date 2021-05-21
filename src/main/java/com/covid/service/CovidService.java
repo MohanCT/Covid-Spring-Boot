@@ -17,4 +17,8 @@ public interface CovidService {
 	public Map<String,Object> getCountryVaccine(Map<String,Object> requestData);
 	
 	public Map<String,Object> getGlobalVaccine();
+	
+	public Map<String,Object> getDistrictList();
+	
+	public Map<String,Object> getHospitalList(String id);
 }

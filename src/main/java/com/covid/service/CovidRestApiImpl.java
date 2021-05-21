@@ -39,6 +39,9 @@ import com.covid.model.CovidState;
 import com.covid.model.CovidTotal;
 import com.covid.model.CovidVaccine;
 import com.covid.model.CovidVaccineList;
+import com.covid.model.TamilNaduDisList;
+import com.covid.model.TamilNaduHosList;
+import com.covid.model.TamilNaduHospital;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -64,6 +67,8 @@ public class CovidRestApiImpl {
 	Map<String, CovidDayOneList> covidDayOneListMap = new HashMap<>();
 
 	Map<String, CovidVaccineList> covidVaccineListMap = new HashMap<>();
+	
+	Map<String, TamilNaduHosList> tnHosListMap = new HashMap<>();
 	
 //    
 //    @Autowired
@@ -525,5 +530,132 @@ public class CovidRestApiImpl {
 			e.printStackTrace();
 		}
 	}
+	
+	public void getDistrictList() {
+		try {
+			ResponseEntity<String> response = restTemplate.exchange("https://tncovidbeds.tnega.org/api/district",
+					HttpMethod.GET, Helper.getHttpEntityObj(), String.class);
+
+			if (response.getStatusCode().equals(HttpStatus.OK)) {
+				JSONObject jsonObject = new JSONObject(response.getBody());
+
+				if (Objects.nonNull(jsonObject)) {
+					
+					JSONArray jsonArray = jsonObject.optJSONArray("result");
+					
+					if(Objects.nonNull(jsonArray)) {
+						List<TamilNaduDisList> tamilNaduDisList = new ArrayList<>();
+						for (int i = 0; i < jsonArray.length(); i++) {
+							JSONObject jsonObj = jsonArray.getJSONObject(i);
+
+							TamilNaduDisList tamilNaduDis = new TamilNaduDisList();
+							tamilNaduDis.setId(jsonObj.optString("id"));
+							tamilNaduDis.setDistrictName(jsonObj.optString("Name"));
+							tamilNaduDis.setDistrictCode(jsonObj.optString("ShortCode"));
+							tamilNaduDisList.add(tamilNaduDis);
+						}
+						
+						covidData.setTamilNaduDisList(tamilNaduDisList);
+					}
+					
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void getHospitalList(String id) {
+		try {
+			
+			String body = "{\"searchString\":\"\",\"sortCondition\":{\"Name\":1},\"pageNumber\":1,\"pageLimit\":10000,\"SortValue\":\"Availability\",\"ShowIfVacantOnly\":\"\",\"Districts\":[\""+id+"\"],\"IsGovernmentHospital\":true,\"IsPrivateHospital\":true,\"FacilityTypes\":[\"CHO\",\"CHC\",\"CCC\"]}";
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			headers.add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+            headers.setAccept(Arrays.asList(MediaType.ALL));
+			
+			HttpEntity<?> httpEntity = new HttpEntity<>(body,headers);
+			ResponseEntity<String> response = restTemplate.exchange("https://tncovidbeds.tnega.org/api/hospitals",
+					HttpMethod.POST, httpEntity, String.class);
+
+			if (response.getStatusCode().equals(HttpStatus.OK)) {
+				JSONObject jsonObject = new JSONObject(response.getBody());
+
+				if (Objects.nonNull(jsonObject)) {
+					
+					JSONArray jsonArray = jsonObject.optJSONArray("result");
+					
+					if(Objects.nonNull(jsonArray)) {
+						
+						List<TamilNaduHospital> tamilNaduHospitalList = new ArrayList<>();
+						for (int i = 0; i < jsonArray.length(); i++) {
+							JSONObject jsonObj = jsonArray.getJSONObject(i);
+							
+							JSONObject jsonObjType = jsonObj.optJSONObject("Type");
+							JSONObject jsonObjCovidBedDetails = jsonObj.optJSONObject("CovidBedDetails");
+							JSONArray jsonObjContactDetails = jsonObj.optJSONArray("ContactDetails");
+							JSONObject jsonObjAddressDetail = jsonObj.optJSONObject("AddressDetail");
+							
+
+							TamilNaduHospital tamilNaduHospital = new TamilNaduHospital();
+							tamilNaduHospital.setHospitalName(jsonObj.optString("Name"));
+							if(!jsonObj.optString("Latitude").isEmpty() && !jsonObj.optString("Longitude").isEmpty()) {
+								tamilNaduHospital.setHospitalLocation("http://maps.google.com/?q="+jsonObj.optString("Latitude")+","+jsonObj.optString("Longitude"));
+							} else {
+								tamilNaduHospital.setHospitalLocation("");	
+							}
+							
+							if(Objects.nonNull(jsonObjAddressDetail)) {
+								tamilNaduHospital.setHospitalAddress(jsonObjAddressDetail.optString("Line1")+","+
+										jsonObjAddressDetail.optString("Line2")+","+jsonObjAddressDetail.optString("Line3"));
+							} else {
+								tamilNaduHospital.setHospitalAddress("");
+							}
+							
+							if(Objects.nonNull(jsonObjContactDetails) && !jsonObjContactDetails.isEmpty()) {
+								JSONObject jsonContant = jsonObjContactDetails.optJSONObject(0);
+								tamilNaduHospital.setHospitalMobileNo(jsonContant.optString("ContactNumber"));	
+							} else {
+								tamilNaduHospital.setHospitalMobileNo("");
+							}
+							
+							if(Objects.nonNull(jsonObjCovidBedDetails)) {
+								tamilNaduHospital.setHospitalNormalBeds(jsonObjCovidBedDetails.optInt("VaccantNonO2Beds")+"/"+jsonObjCovidBedDetails.optInt("AllotedNonO2Beds"));
+								tamilNaduHospital.setHospitalOxygenBeds(jsonObjCovidBedDetails.optInt("VaccantO2Beds")+"/"+jsonObjCovidBedDetails.optInt("AllotedO2Beds"));
+								tamilNaduHospital.setHospitalIcuBeds(jsonObjCovidBedDetails.optInt("VaccantICUBeds")+"/"+jsonObjCovidBedDetails.optInt("AllotedICUBeds"));
+								tamilNaduHospital.setHospitalTotalBeds(jsonObjCovidBedDetails.optInt("TotalVaccantBeds")+"/"+jsonObjCovidBedDetails.optInt("BedsAllotedForCovidTreatment"));
+							} else {
+								tamilNaduHospital.setHospitalNormalBeds("");
+								tamilNaduHospital.setHospitalOxygenBeds("");
+								tamilNaduHospital.setHospitalIcuBeds("");
+								tamilNaduHospital.setHospitalTotalBeds("");
+							}
+							tamilNaduHospital.setHospitalFacilityType(jsonObj.optString("FacilityType"));
+							if(Objects.nonNull(jsonObjType)) {
+								tamilNaduHospital.setHospitalType(jsonObjType.optString("Name"));
+							} else {
+								tamilNaduHospital.setHospitalType("");	
+							}
+							
+							tamilNaduHospital.setLastUpdatedOn("");
+							tamilNaduHospitalList.add(tamilNaduHospital);
+						}
+						
+						TamilNaduHosList tamilNaduHosList = new TamilNaduHosList();
+						tamilNaduHosList.setReqIntDate(new Date());
+						tamilNaduHosList.setTamilNaduHospital(tamilNaduHospitalList);
+						
+						tnHosListMap.put(id, tamilNaduHosList);
+						covidData.setTamilNaduHosListMap(tnHosListMap);
+					}
+					
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 }

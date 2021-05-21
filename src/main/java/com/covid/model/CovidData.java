@@ -20,6 +20,10 @@ public class CovidData {
 	private Map<String,CovidDayOneList> covidDayOneListMap= new HashMap<>();
 	
 	private Map<String,CovidVaccineList> covidVaccineListMap= new HashMap<>();
+	
+	private Map<String,TamilNaduHosList> tamilNaduHosListMap= new HashMap<>();
+	
+	private List<TamilNaduDisList> tamilNaduDisList;
 
 	public CovidTotal getCovidTotal() {
 		return covidTotal;
@@ -67,6 +71,22 @@ public class CovidData {
 
 	public void setCovidVaccine(List<CovidVaccine> covidVaccine) {
 		this.covidVaccine = covidVaccine;
+	}
+
+	public List<TamilNaduDisList> getTamilNaduDisList() {
+		return tamilNaduDisList;
+	}
+
+	public void setTamilNaduDisList(List<TamilNaduDisList> tamilNaduDisList) {
+		this.tamilNaduDisList = tamilNaduDisList;
+	}
+
+	public Map<String, TamilNaduHosList> getTamilNaduHosListMap() {
+		return tamilNaduHosListMap;
+	}
+
+	public void setTamilNaduHosListMap(Map<String, TamilNaduHosList> tamilNaduHosListMap) {
+		this.tamilNaduHosListMap = tamilNaduHosListMap;
 	}
 
 	
