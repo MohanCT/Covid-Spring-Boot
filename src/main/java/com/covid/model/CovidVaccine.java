@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 public class CovidVaccine {
 
 	private String date;
-	private int vaccineCount;
+	private long vaccineCount;
 	
 	public String getDate() {
 		return date;
@@ -14,10 +14,10 @@ public class CovidVaccine {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public int getVaccineCount() {
+	public long getVaccineCount() {
 		return vaccineCount;
 	}
-	public void setVaccineCount(int vaccineCount) {
+	public void setVaccineCount(long vaccineCount) {
 		this.vaccineCount = vaccineCount;
 	}
 }

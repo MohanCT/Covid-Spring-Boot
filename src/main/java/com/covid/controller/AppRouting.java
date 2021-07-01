@@ -52,6 +52,15 @@ public class AppRouting {
 		return "robots.txt";
 	}
 	
+	@GetMapping(path = "/tamilnadu")
+	public String getTamilNadu(Model model) {
+		model.addAttribute("pageTitle", "Available Beds in Tamilnadu - Covid Tracker 19");
+		model.addAttribute("pageCano", "https://www.covidtracker19.com/tamilnadu");
+		model.addAttribute("pageDesc", "Find nearby beds with oxygen support and ICU facilities around Tamilandu for both Goverment hospitals and Private hospitals.");
+		model.addAttribute("pageKey", "covid bed, tamilnadu bed, covid oxygen,covid icu, tamilnadu hospital,government bed,private hospital bed");
+        return "index.html";
+	}
+	
 	@GetMapping(path = "")
 	public String getIndex(Model model) {
 		model.addAttribute("pageTitle", "COVID Tracker 19 | Live Coronavirus Updates");

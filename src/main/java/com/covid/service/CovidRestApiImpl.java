@@ -479,7 +479,7 @@ public class CovidRestApiImpl {
 					}
 
 					covidVaccineList = covidVaccineList.stream()
-							.sorted(Comparator.comparingInt(CovidVaccine::getVaccineCount).reversed())
+							.sorted(Comparator.comparingLong(CovidVaccine::getVaccineCount).reversed())
 							.collect(Collectors.toList());
 
 					CovidVaccineList covidVaccineListData = new CovidVaccineList();
@@ -510,12 +510,12 @@ public class CovidRestApiImpl {
 					for (String keyStr : jsonObject.keySet()) {
 						CovidVaccine covidVaccine = new CovidVaccine();
 						covidVaccine.setDate(keyStr);
-						covidVaccine.setVaccineCount(jsonObject.getInt(keyStr));
+						covidVaccine.setVaccineCount(jsonObject.getLong(keyStr));
 						covidVaccineList.add(covidVaccine);
 					}
 
 					covidVaccineList = covidVaccineList.stream()
-							.sorted(Comparator.comparingInt(CovidVaccine::getVaccineCount).reversed())
+							.sorted(Comparator.comparingLong(CovidVaccine::getVaccineCount).reversed())
 							.collect(Collectors.toList());
 
 					CovidVaccineList covidVaccineListData = new CovidVaccineList();
